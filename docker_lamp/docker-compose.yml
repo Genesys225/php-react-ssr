@@ -1,0 +1,38 @@
+version: '3'
+services:
+    php-apache:
+        build:
+            context: ./php-apache
+        ports:
+            - 81:80
+        volumes:
+            - ./DocumentRoot:/var/www/html:z
+        links:
+            - mysql:database-service
+
+    mysql:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        volumes:
+            - ./mysql:/var/lib/mysql:z
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: 123456
+            MYSQL_USER: 'testuser'
+            MYSQL_PASSWORD: 'testpassword'  
+            MYSQL_DATABASE: 'testdb'
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - mysql:database-service
+        ports:
+            - 8080:80
+        environment:
+            TZ: "Asia/Jerusalem"
+            MYSQL_USERNAME: "root"
+            MYSQL_ROOT_PASSWORD: "123456"
+            PMA_HOST: "mysql"
+
+volumes:
+    mysql:
