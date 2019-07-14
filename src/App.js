@@ -1,24 +1,15 @@
 import React from "react";
-// import logo from "./logo.svg";
-import "./App.css";
+import routes from "./routes";
 
-function App() {
+ import "./App.css";
+
+function App({ req }) {
+  if (!req && !window.__INITIAL_DATA__ ) window.__INITIAL_DATA__ = { component: "counntry", data: {Name:"mock country", Region:"mock region"}}
+  const { component } = req ? routes.find(({ path }) => req.originalUrl === path) : window.__INITIAL_DATA__;
+  const { data } = req ? req.body : window.__INITIAL_DATA__;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src="/logo.svg" className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {React.cloneElement(component, data)}
     </div>
   );
 }
