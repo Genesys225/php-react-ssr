@@ -52,8 +52,8 @@ foreach ($body_scripts as $item) {
         $src_arr[] = $src;
     }
 }
-$body_scripts->item(1)->setAttribute('src','/public' . $src_arr[0]);
-$body_scripts->item(2)->setAttribute('src','/public' . $src_arr[1]);
+$body_scripts->item(1)->setAttribute('src', '/public' . $src_arr[0]);
+$body_scripts->item(2)->setAttribute('src', '/public' . $src_arr[1]);
 $first_react_script_tag = $doc->saveHTML($body_scripts->item(1));
 $second_react_script_tag = $doc->saveHTML($body_scripts->item(2));
 list($_, $asset_id) = explode(".", $cssHref);
@@ -77,7 +77,7 @@ list($_, $asset_id) = explode(".", $cssHref);
 <body>
     <div id="root"><?php print_r($html); ?></div>
     <script>
-        window.__INITIAL_DATA__ = <?php print_r(json_encode($country_arr)); ?>;
+    window.__INITIAL_DATA__ = <?php print_r(json_encode($country_arr)); ?>;
     </script>
     <?php echo $webpack_inline_func; ?>
     <?php echo $first_react_script_tag; ?>

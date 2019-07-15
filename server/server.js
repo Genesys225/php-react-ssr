@@ -1,14 +1,9 @@
 import path from "path";
-import fs from "fs";
 import cors from "cors";
 import component_router from "../nodeApi/rendering-service/component";
 import bodyParser from "body-parser";
 
 import express from "express";
-import React from "react";
-import ReactDOMServer from "react-dom/server";
-
-import App from "../src/App";
 
 const PORT = 3000;
 const app = express();
@@ -36,16 +31,14 @@ app.use(bodyParser.json());
 // };
 // router.use("/country", serverRenderer);
 
-router.use(
-  express.static(path.resolve(__dirname, "..", "build"))
-);
+router.use(express.static(path.resolve(__dirname, "..", "build")));
 
 app.use("*", component_router);
 
 // // tell the app to use the above rules
 // app.use(router);
 
-app.use(express.static('./build'))
+app.use(express.static("./build"));
 app.listen(PORT, () => {
   console.log(`SSR running on port ${PORT}`);
 });
