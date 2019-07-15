@@ -6,13 +6,6 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import theme from './theme';
 
-console.trace("client Index")
-ReactDOM.hydrate(<App />, document.getElementById("app"));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
 function Main() {
     React.useEffect(() => {
       const jssStyles = document.querySelector('#jss-server-side');
@@ -23,8 +16,15 @@ function Main() {
   
     return (
       <ThemeProvider theme={theme}>
-        <App />
+        <App/>
       </ThemeProvider>
     );
   }
   
+console.trace("client Index")
+ReactDOM.hydrate(<Main/>, document.getElementById("root"));
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();

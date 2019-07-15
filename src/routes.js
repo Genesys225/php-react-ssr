@@ -1,12 +1,12 @@
 import React from "react";
-import CountryItem from "./CountryItem";
+import Country from "./CountryItem";
 
 const routes = [
 
   {
     path: "/country",
     exact: true,
-    component: < CountryItem / >
+    component: <Country/>
       // fetchInitialData: () => fetchPopularRepos('all')
   }
 ];

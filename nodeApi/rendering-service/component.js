@@ -10,7 +10,7 @@ import {
 } from '@material-ui/styles';
 const router = express.Router();
 
-router.post("*", (req, res, next) => {
+router.all("*", (req, res, next) => {
   const sheets = new ServerStyleSheets();
 
   // Render the component to a string.
