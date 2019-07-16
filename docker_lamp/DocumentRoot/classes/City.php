@@ -3,7 +3,8 @@ class City
 {
     private $conn;
     private $table = 'city';
-    public function __construct($db){
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
     private function runQuery(String $query)
@@ -12,7 +13,8 @@ class City
         $stmt->execute();
         return $stmt;
     }
-    public function getAll(){
+    public function getAll()
+    {
         $result = $this->runQuery('SELECT * FROM ' . $this->table);
         return $result;
     }
@@ -26,4 +28,3 @@ class City
 }
 
 require_once($_SERVER["DOCUMENT_ROOT"] . '/mysql/DB.php');
-?>

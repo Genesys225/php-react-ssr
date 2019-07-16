@@ -5,7 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import {Twemoji} from 'react-emoji-render'
+import { Twemoji } from "react-emoji-render";
 import ReactCountryFlag from "react-country-flag";
 import { renderToString } from "react-dom/server";
 
@@ -30,7 +30,7 @@ const Country = props => {
   const classes = useStyles();
   const { Name, Region, Population, Code2 } = props;
   console.log(Name, Region, Code2, Population);
- 
+
   return (
     <Card className={classes.card}>
       <CardContent>
@@ -40,8 +40,9 @@ const Country = props => {
         <Typography variant="h5" component="h4">
           Located in the "<em>{Region}</em>" region
         </Typography>
-        <Twemoji text={renderToString(<ReactCountryFlag code={Code2.toLowerCase()} />)} />
-       
+        <Twemoji
+          text={renderToString(<ReactCountryFlag code={Code2.toLowerCase()} />)}
+        />
       </CardContent>
       <CardActions>
         <Button size="small">To cities list</Button>

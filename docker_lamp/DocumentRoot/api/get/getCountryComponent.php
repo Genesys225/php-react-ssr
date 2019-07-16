@@ -1,8 +1,8 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-type: text/html");
-include_once "../../mysql/DB.php";
-include_once "../../classes/Country.php";
+require_once "../../mysql/DB.php";
+require_once "../../classes/Country.php";
 
 $curl = curl_init();
 
@@ -18,17 +18,20 @@ $country_length = $country->rowCount();
 if ($country_length > 0) {
     $country_arr['data'] = $country->fetch(PDO::FETCH_ASSOC);
 
-    curl_setopt_array($curl, [
-        CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => 'http://10.0.0.9:3000/country',
-        CURLOPT_POST => 1,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POSTFIELDS => json_encode(array('data' => $country_arr['data'])),
-        CURLOPT_HTTPHEADER => array(
-            'Content-Type: application/json'
-            // 'Content-Length: ' . strlen($country_arr)
-        )
-    ]);
+    curl_setopt_array(
+        $curl,
+        [
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => 'http://10.0.0.9:3000/country',
+            CURLOPT_POST => 1,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS => json_encode(array('data' => $country_arr['data'])),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+                // 'Content-Length: ' . strlen($country_arr)
+            )
+        ]
+    );
     $node_output = curl_exec($curl);
     list($html, $css) = explode("!!, ", $node_output);
     $country_arr["component"] = 'country';

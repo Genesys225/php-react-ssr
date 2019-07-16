@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /docker_lamp/mysql
+/phpcs
 
 # testing
 /coverage
