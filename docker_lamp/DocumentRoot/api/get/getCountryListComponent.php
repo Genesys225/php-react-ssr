@@ -12,20 +12,21 @@ $db = $database->connect();
 $param = $_GET['Name'];
 
 $country_db = new Country($db);
-$country = $country_db->getByName($param);
+$country = $country_db->getAll();
 $country_length = $country->rowCount();
 
 if ($country_length > 0) {
-    $country_arr['data'] = $country->fetch(PDO::FETCH_ASSOC);
-
+    $country_arr['data'] = $country->fetchALL(PDO::FETCH_ASSOC);
+    $initialProps = json_encode(array('data' => $country_arr['data']));
+    // print_r($initialProps);
     curl_setopt_array(
         $curl,
         [
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => 'http://10.0.0.9:3000/country',
+            CURLOPT_URL => 'http://10.0.0.9:3000/country-list',
             CURLOPT_POST => 1,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POSTFIELDS => json_encode(array('data' => $country_arr['data'])),
+            CURLOPT_POSTFIELDS => $initialProps,
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json'
                 // 'Content-Length: ' . strlen($country_arr)
@@ -60,7 +61,6 @@ $body_scripts->item(2)->setAttribute('src', '/public' . $src_arr[1]);
 $first_react_script_tag = $doc->saveHTML($body_scripts->item(1));
 $second_react_script_tag = $doc->saveHTML($body_scripts->item(2));
 list($_, $asset_id) = explode(".", $cssHref);
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -73,14 +73,14 @@ list($_, $asset_id) = explode(".", $cssHref);
     <link rel="manifest" href="/public/manifest.json" />
     <link href="/public/static/css/main.<?php echo $asset_id; ?>.chunk.css" rel="stylesheet">
     <style id="jss-server-side">
-        <?php print_r($css) ?>
+    <?php print_r($css) ?>
     </style>
 </head>
 
 <body>
     <div id="root"><?php print_r($html); ?></div>
     <script>
-        window.__INITIAL_DATA__ = <?php print_r(json_encode($country_arr)); ?>;
+    window.__INITIAL_DATA__ = <?php print_r(json_encode($country_arr)); ?>;
     </script>
     <?php echo $webpack_inline_func; ?>
     <?php echo $first_react_script_tag; ?>

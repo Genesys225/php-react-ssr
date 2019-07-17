@@ -26,10 +26,18 @@ const useStyles = makeStyles({
   }
 });
 
-const Country = props => {
+const CountryItem = props => {
   const classes = useStyles();
   const { Name, Region, Population, Code2 } = props;
-  console.log(Name, Region, Code2, Population);
+  // console.log(Name, Region, Code2, Population);
+  const flagComponent = renderToString(
+    <ReactCountryFlag code={Code2.toLowerCase()} />
+  );
+  const flag = flagComponent.substring(
+    flagComponent.indexOf(">") + 1,
+    flagComponent.lastIndexOf("<")
+  );
+  const flagSpan = flagComponent.split(flag);
 
   return (
     <Card className={classes.card}>
@@ -40,9 +48,7 @@ const Country = props => {
         <Typography variant="h5" component="h4">
           Located in the "<em>{Region}</em>" region
         </Typography>
-        <Twemoji
-          text={renderToString(<ReactCountryFlag code={Code2.toLowerCase()} />)}
-        />
+        <Twemoji text={flag} />
       </CardContent>
       <CardActions>
         <Button size="small">To cities list</Button>
@@ -51,4 +57,4 @@ const Country = props => {
   );
 };
 
-export default Country;
+export default CountryItem;

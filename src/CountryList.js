@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
+import CountryItem from "./CountryItem";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,19 +14,21 @@ const useStyles = makeStyles(theme => ({
   },
   gridList: {
     width: 500,
-    height: 450
+    height: 800
   }
 }));
 
 export default function ImageGridList(props) {
-  const { countriesList } = props;
+  const countriesList = Object.values(props);
+  //   console.log(typeof countriesList);
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
-      <GridList cellHeight={160} className={classes.gridList} cols={3}>
-        {countriesList.map(tile => (
-          <GridListTile key={tile.img} cols={1} />
+      <GridList cellHeight={160} className={classes.gridList} cols={2}>
+        {countriesList.map(country => (
+          <GridListTile key={country.Code2} cols={1}>
+            <CountryItem {...country} />
+          </GridListTile>
         ))}
       </GridList>
     </div>

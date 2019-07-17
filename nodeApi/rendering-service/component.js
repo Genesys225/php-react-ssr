@@ -9,7 +9,6 @@ const router = express.Router();
 
 router.all("*", (req, res, next) => {
   const sheets = new ServerStyleSheets();
-
   // Render the component to a string.
   const html = renderToString(
     sheets.collect(
