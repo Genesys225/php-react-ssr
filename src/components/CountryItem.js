@@ -11,7 +11,7 @@ import { renderToString } from "react-dom/server";
 
 const useStyles = makeStyles({
   card: {
-    minWidth: 275
+    // minWidth: 275
   },
   bullet: {
     display: "inline-block",
@@ -19,10 +19,7 @@ const useStyles = makeStyles({
     transform: "scale(0.8)"
   },
   title: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
+    fontSize: 10
   }
 });
 

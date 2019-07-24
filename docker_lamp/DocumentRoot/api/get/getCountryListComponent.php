@@ -17,8 +17,8 @@ $country_length = $country->rowCount();
 
 if ($country_length > 0) {
     $country_arr['data'] = $country->fetchALL(PDO::FETCH_ASSOC);
-    $initialProps = json_encode(array('data' => $country_arr['data']));
-    // print_r($initialProps);
+    $initialProps['data'] = $country_arr['data'];
+
     curl_setopt_array(
         $curl,
         [
@@ -26,16 +26,17 @@ if ($country_length > 0) {
             CURLOPT_URL => 'http://10.0.0.9:3000/country-list',
             CURLOPT_POST => 1,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POSTFIELDS => $initialProps,
+            CURLOPT_POSTFIELDS => json_encode($country_arr),
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json'
                 // 'Content-Length: ' . strlen($country_arr)
             )
         ]
     );
+    // print_r(json_encode($country_arr));
     $node_output = curl_exec($curl);
     list($html, $css) = explode("!!, ", $node_output);
-    $country_arr["component"] = 'country';
+    $initialProps["component"] = '/country-list';
     curl_close($curl);
 } else {
     echo json_encode(
@@ -47,17 +48,20 @@ $doc = new DOMDocument();
 $doc->loadHTMLFile("../../public/index.html");
 $head_links = $doc->getElementsByTagName('link');
 $body_scripts = $doc->getElementsByTagName('script');
+// $body_scripts->item(0)->setAttribute('defer', "");
 $cssHref = $doc->saveHTML($head_links->item(2));
 $webpack_inline_func = $doc->saveHTML($body_scripts->item(0));
-$src_arr = array();
-foreach ($body_scripts as $item) {
-    $src = $item->getAttribute('src');
-    if ($src) {
-        $src_arr[] = $src;
-    }
-}
-$body_scripts->item(1)->setAttribute('src', '/public' . $src_arr[0]);
-$body_scripts->item(2)->setAttribute('src', '/public' . $src_arr[1]);
+// $src_arr = array();
+// foreach ($body_scripts as $item) {
+//     $src = $item->getAttribute('src');
+//     // $item->setAttribute('defer', "");
+//     if ($src) {
+//         $src_arr[] = $src;
+//     }
+// }
+// $body_scripts->item(1)->setAttribute('src', '/public' . $src_arr[0]);
+// $body_scripts->item(2)->setAttribute('src', '/public' . $src_arr[1]);
+
 $first_react_script_tag = $doc->saveHTML($body_scripts->item(1));
 $second_react_script_tag = $doc->saveHTML($body_scripts->item(2));
 list($_, $asset_id) = explode(".", $cssHref);
@@ -71,17 +75,17 @@ list($_, $asset_id) = explode(".", $cssHref);
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="/public/manifest.json" />
-    <link href="/public/static/css/main.<?php echo $asset_id; ?>.chunk.css" rel="stylesheet">
+    <link href="/static/css/main.<?php echo $asset_id; ?>.chunk.css" rel="stylesheet">
     <style id="jss-server-side">
-    <?php print_r($css) ?>
+        <?php print_r($css) ?>
     </style>
 </head>
 
 <body>
-    <div id="root"><?php print_r($html); ?></div>
     <script>
-    window.__INITIAL_DATA__ = <?php print_r(json_encode($country_arr)); ?>;
+        window.__INITIAL_DATA__ = <?php print_r(json_encode($initialProps)); ?>;
     </script>
+    <div id="root"><?php print_r($html); ?></div>
     <?php echo $webpack_inline_func; ?>
     <?php echo $first_react_script_tag; ?>
     <?php echo $second_react_script_tag; ?>

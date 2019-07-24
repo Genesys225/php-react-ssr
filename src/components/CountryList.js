@@ -11,16 +11,12 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-around",
     overflow: "hidden",
     backgroundColor: theme.palette.background.paper
-  },
-  gridList: {
-    width: 500,
-    height: 800
   }
 }));
 
 export default function ImageGridList(props) {
-  const countriesList = Object.values(props);
-  //   console.log(typeof countriesList);
+  const countriesList = Object.values(props.data);
+
   const classes = useStyles();
   return (
     <div className={classes.root}>

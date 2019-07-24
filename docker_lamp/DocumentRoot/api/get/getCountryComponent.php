@@ -22,7 +22,7 @@ if ($country_length > 0) {
         $curl,
         [
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => 'http://10.0.0.9:3000/country',
+            CURLOPT_URL => 'http://10.0.0.9:3000/country-item',
             CURLOPT_POST => 1,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POSTFIELDS => json_encode(array('data' => $country_arr['data'])),
@@ -34,7 +34,7 @@ if ($country_length > 0) {
     );
     $node_output = curl_exec($curl);
     list($html, $css) = explode("!!, ", $node_output);
-    $country_arr["component"] = 'country';
+    $country_arr["component"] = '/country-item';
     curl_close($curl);
 } else {
     echo json_encode(

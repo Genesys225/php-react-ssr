@@ -7,7 +7,7 @@ services:
       - 81:80
     volumes:
       - ./DocumentRoot:/var/www/html:z
-      - ../build/static:/var/www/html/public/static:z
+      - ../build/static:/var/www/html/static:z
       - ../build:/var/www/html/public:z
       - ../build/favicon.ico:/var/www/html/favicon.ico:z
       - ../build/asset-manifest.json:/var/www/html/asset-manifest.json:z

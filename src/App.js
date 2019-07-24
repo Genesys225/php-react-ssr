@@ -1,24 +1,28 @@
 import React from "react";
 import routes from "./routes";
-import CountryList from "./CountryList";
+import CountryList from "./components/CountryList";
 import "./App.css";
+import Switch from "./components";
+import CountryItem from "./components/CountryItem";
 // import CountryItem from "./CountryItem";
 
 function App({ req }) {
-  if (!req && !window.__INITIAL_DATA__)
+  // console.log(req.body);
+  if (!req && !window.__INITIAL_DATA__) {
     window.__INITIAL_DATA__ = {
       component: "counntry",
       data: { Name: "mock country", Region: "mock region" }
     };
-  // const { component } = req
-  //   ? routes.find(({ path }) => req.originalUrl === path)
-  //   : window.__INITIAL_DATA__;
+  }
+  const component = req ? req.originalUrl : window.__INITIAL_DATA__.component;
   const { data } = req ? req.body : window.__INITIAL_DATA__;
   return (
-    <div>
-      {/*<CountryItem {...data} />*/}
-      <CountryList {...data} />
-    </div>
+    <>
+      <Switch reqRoute={component} reqProps={data}>
+        <CountryItem route="/country-item" />
+        <CountryList route="/country-list" />
+      </Switch>
+    </>
   );
 }
 

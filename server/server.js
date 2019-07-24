@@ -38,7 +38,6 @@ app.use("*", component_router);
 // // tell the app to use the above rules
 // app.use(router);
 
-app.use(express.static("./build"));
 app.listen(PORT, () => {
   console.log(`SSR running on port ${PORT}`);
 });
