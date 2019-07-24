@@ -20,7 +20,7 @@ export default function ImageGridList(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <GridList cellHeight={160} className={classes.gridList} cols={2}>
+      <GridList cellHeight={220} className={classes.gridList} cols={2}>
         {countriesList.map(country => (
           <GridListTile key={country.Code2} cols={1}>
             <CountryItem {...country} />
