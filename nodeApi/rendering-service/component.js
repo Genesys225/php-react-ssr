@@ -1,28 +1,38 @@
 import express from "express";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import serialize from "serialize-javascript";
+import { ServerStyleSheet } from "styled-components";
+
 import App from "../../src/App";
 import theme from "../../src/theme";
 import { ServerStyleSheets, ThemeProvider } from "@material-ui/styles";
 const router = express.Router();
 
-router.all("*", (req, res, next) => {
+router.post("*", (req, res, next) => {
   const sheets = new ServerStyleSheets();
+  const style = new ServerStyleSheet();
+  console.log(req.params);
+  const component = req.originalUrl;
+  const { data } = req.body;
   // Render the component to a string.
+
   const html = renderToString(
-    sheets.collect(
-      <ThemeProvider theme={theme}>
-        <App req={req} />
-      </ThemeProvider>
+    style.collectStyles(
+      sheets.collect(
+        <ThemeProvider theme={theme}>
+          <App data={data} component={component} />
+        </ThemeProvider>
+      )
     )
   );
+  const styleTags = style.getStyleTags();
+
+  const css = sheets.toString();
+  res.send(`${html}!!, ${css}!!, ${styleTags}`);
 
   // Grab the CSS from our sheets.
-  const css = sheets.toString();
 
   // Send the rendered page back to PHP.
-  res.send(`${html}!!, ${css}`);
 });
 
 //       const context = { data };

@@ -18,24 +18,23 @@ $country_length = $country->rowCount();
 if ($country_length > 0) {
     $country_arr['data'] = $country->fetchALL(PDO::FETCH_ASSOC);
     $initialProps['data'] = $country_arr['data'];
-
     curl_setopt_array(
         $curl,
         [
-            CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_URL => 'http://10.0.0.9:3000/country-list',
-            CURLOPT_POST => 1,
+            CURLOPT_POST => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POSTFIELDS => json_encode($country_arr),
             CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json'
-                // 'Content-Length: ' . strlen($country_arr)
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen(json_encode($country_arr)),
+                'Connection: Keep-Alive'
             )
         ]
     );
-    // print_r(json_encode($country_arr));
+    // print_r(strlen(json_encode($country_arr)));
     $node_output = curl_exec($curl);
-    list($html, $css) = explode("!!, ", $node_output);
+    list($html, $css, $sccss) = explode("!!, ", $node_output);
     $initialProps["component"] = '/country-list';
     curl_close($curl);
 } else {
@@ -77,8 +76,9 @@ list($_, $asset_id) = explode(".", $cssHref);
     <link rel="manifest" href="/public/manifest.json" />
     <link href="/static/css/main.<?php echo $asset_id; ?>.chunk.css" rel="stylesheet">
     <style id="jss-server-side">
-        <?php print_r($css) ?>
+        <?php print_r($css); ?>
     </style>
+    <?php print_r($sccss); ?>
 </head>
 
 <body>

@@ -1,21 +1,19 @@
 import React from "react";
-import routes from "./routes";
 import CountryList from "./components/CountryList";
 import "./App.css";
 import Switch from "./components";
 import CountryItem from "./components/CountryItem";
-// import CountryItem from "./CountryItem";
 
-function App({ req }) {
+function App(props) {
   // console.log(req.body);
-  if (!req && !window.__INITIAL_DATA__) {
+  if (!props.component && !window.__INITIAL_DATA__) {
     window.__INITIAL_DATA__ = {
       component: "counntry",
       data: { Name: "mock country", Region: "mock region" }
     };
   }
-  const component = req ? req.originalUrl : window.__INITIAL_DATA__.component;
-  const { data } = req ? req.body : window.__INITIAL_DATA__;
+  const { component } = props.component ? props : window.__INITIAL_DATA__;
+  const { data } = props.data ? props : window.__INITIAL_DATA__;
   return (
     <>
       <Switch reqRoute={component} reqProps={data}>

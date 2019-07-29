@@ -5,6 +5,7 @@ module.exports = function override(config, env) {
     config.plugins = [];
   }
 
+  // config.plugins.push("babel-plugin-styled-components");
   config.plugins.push(
     process.env.NODE_ENV === "production"
       ? new CopyWebpackPlugin([{ from: "src/logo.svg" }])
