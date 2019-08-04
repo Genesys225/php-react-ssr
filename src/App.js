@@ -3,6 +3,7 @@ import CountryList from "./components/CountryList";
 import "./App.css";
 import Switch from "./components";
 import CountryItem from "./components/CountryItem";
+import Form, { FormField } from "./components/Form";
 
 function App(props) {
   // console.log(req.body);
@@ -19,6 +20,15 @@ function App(props) {
       <Switch reqRoute={component} reqProps={data}>
         <CountryItem route="/country-item" />
         <CountryList route="/country-list" />
+        <Form
+          route="/form"
+          className="create-event-form"
+          id="create-event-form"
+          confirmBtnText="Confirm"
+          canConfirm
+        >
+          <FormField>Test</FormField>
+        </Form>
       </Switch>
     </>
   );
